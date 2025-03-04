@@ -1,18 +1,15 @@
 <%- include("header.ejs") %>
-<section class="container mt-4">
-	<div class="row">
-		<div class="col-12 text-center">
-			<img
-				src="<%= article.img %>"
-				alt="<%= article.title %>"
-				class="img-fluid h-100"
-				style="width: 500px"
-			/>
-		</div>
-		<div class="col-12 mt-3">
-			<h1><%= article.title %></h1>
-			<p><%= article.content %></p>
-		</div>
-	</div>
+
+<section class="container mt-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <img src="<%= article.img %>" alt="<%= article.title %>" class="img-fluid rounded shadow" style="max-width: 600px;">
+        </div>
+        <div class="col-md-10 mt-4 text-center">
+            <h1 class="fw-bold" style="letter-spacing: 1px;"><%= article.title %></h1>
+            <p class="mt-3" style="line-height: 1.8; font-size: 18px; text-align: justify;"><%= article.content %></p>
+        </div>
+    </div>
 </section>
+
 <%- include("footer.ejs") %>
