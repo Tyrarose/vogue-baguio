@@ -37,3 +37,5 @@ These instructions will get you a copy of the project up and running on your loc
 
 ```bash
 node index.js
+nodemon index.js
+vercel dev
