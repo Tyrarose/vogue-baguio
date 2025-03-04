@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import articles from "./articles.js";
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,10 +30,20 @@ app.use(express.static(path.join(__dirname, "public")));
 // }
 
 // Add error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
+// app.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.status(500).send('Something broke!');
+// });
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.avif')) {
+        res.set('Content-Type', 'image/avif');
+      }
+      if (filePath.endsWith('.webp')) {
+        res.set('Content-Type', 'image/webp');
+      }
+    }
+  }));
 
 // Basic error logging
 app.on('error', (error) => {
@@ -73,7 +83,7 @@ app.listen(PORT, () => {
 
 // Only start server if running directly (not in Vercel)
 if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 4000;
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });

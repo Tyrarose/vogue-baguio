@@ -10,7 +10,7 @@
 	"scripts": {
 		"dev": "nodemon index.js",
 		"start": "node index.js",
-		"vercel-dev": "vercel dev --listen 3000",
+		"vercel-dev": "vercel dev --listen 4000",
 		"build": "echo 'No build step required'"
 	},
 	"keywords": [],
