@@ -4,19 +4,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.set("view engine", "ejs"); // Set EJS as the template engine
-app.set("views", path.join(__dirname, "views")); // Ensure views directory is set correctly
-app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "../views")); // Adjust path since it's inside "api"
+app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
 async function loadArticles() {
 	try {
-		const rawData = await fs.readFile(path.join(__dirname, "articles.json"), "utf8");
+		const rawData = await fs.readFile(path.join(__dirname, "../articles.json"), "utf8");
 		return JSON.parse(rawData);
 	} catch (error) {
 		console.error("Error reading the JSON file:", error);
@@ -29,7 +28,6 @@ app.get("/", async (req, res) => {
 	const articles = await loadArticles();
 	const mainFeaturedArticle = articles.find((article) => article.id === "1");
 	res.render("index", {
-		page: "home",
 		articles,
 		mainFeaturedArticle,
 	});
@@ -40,11 +38,11 @@ app.get("/post/:id", async (req, res) => {
 	const articles = await loadArticles();
 	const article = articles.find((article) => article.id === req.params.id);
 	if (article) {
-		res.render("article", { page: "articles", article });
+		res.render("article", { article });
 	} else {
 		res.status(404).send("Article not found");
 	}
 });
 
-// Export for Vercel (instead of app.listen)
+// ✅ Export the handler for Vercel
 export default app;
